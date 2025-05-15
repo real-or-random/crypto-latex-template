@@ -35,6 +35,6 @@ mv "${bcf_stem}.exttmp.blg" "$bcf_dir/$jobname.blg"
 
 # Remove the temporary files
 #
-# We delibaretly them when an error occurs, so they can be inspected.
+# We deliberately keep them when an error occurs, so they can be inspected.
 rm -f "./$bcf_ex"
 rm -f "./$bib_ex"
