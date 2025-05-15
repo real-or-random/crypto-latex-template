@@ -43,8 +43,22 @@ bcf_dir=$(dirname "$bcf")
 jobname=$(basename "$lastarg" ".bcf")
 bib_ex="${bcf_stem}.exttmp.bib"
 
+opening_tag='<bcf:datasource type="file" datatype="bibtex" glob="false">'
+closing_tag='</bcf:datasource>'
+
 # Find the path to the BibTeX file in the BCF file
-bib=$(sed -n "s&.*>\($bib_regex\)</bcf:datasource>.*&\1&p" "$bcf")
+mapfile -t matches < <(sed -n "s&.*$opening_tag\($bib_regex\)$closing_tag.*&\1&p" "$bcf")
+if [[ ${#matches[@]} -eq 1 ]]; then
+    # We found exactly one match, so we can use it.
+    bib="${matches[0]}"
+else
+    if [[ ${#matches[@]} -eq 0 ]]; then
+        echo "$0 ERROR - Found no data sources that match pattern '$bib_regex'!" >&2
+    else
+        echo "$0 ERROR - Found more than one data source that matches pattern '$bib_regex'!" >&2
+    fi
+    exit 1
+fi
 
 # If the path is relative, Biber interprets it relative to (see the manual):
 #   1. --input-directory if specified
@@ -78,7 +92,7 @@ cd "${BASH_SOURCE%/*}" || exit 1
 
 # Modify the BCF file to use the extracted BibTeX file
 bcf_ex="${bcf_stem}.exttmp.bcf"
-sed -e "s&>$bib_regex</bcf:datasource>&>$bib_ex</bcf:datasource>&" "$bcf" > "$bcf_ex"
+sed -e "s&$opening_tag$bib_regex$closing_tag&$opening_tag$bib_ex$closing_tag&" "$bcf" > "$bcf_ex"
 
 # Call biber with the modified BCF file
 biber "${@:1:$#-1}" "$bcf_ex"
