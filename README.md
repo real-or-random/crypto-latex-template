@@ -11,6 +11,7 @@ mkdir -p "$bibhome"
 git clone https://github.com/cryptobib/export "$bibhome/cryptobib"
 
 # Compile the document
+cd src
 latexmk
 
 # See the compiled document for further documentation
