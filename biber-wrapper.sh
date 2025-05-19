@@ -1,8 +1,39 @@
 #!/usr/bin/env bash
 set -e
 
-# bib: The path to original BibTeX file (may not contain "<", ">", and "&").
-bib="vendor/cryptobib/crypto.bib"
+# Settings:
+#   bib_regex:
+#     A regex (BRE) matching the path to the original BibTeX file as specified
+#     using \addbibresource{path}. May not contain "<", ">", and "&".
+bib_regex="\(\|.*/\)crypto.bib"
+
+
+# Parse arguments
+original_args=("$@")
+while [[ $# -gt 0 ]]; do
+  case $1 in
+    --input-directory=*)
+      input_dir="${1#*=}"
+      shift
+      ;;
+    --input-directory)
+      input_dir="$2"
+      shift 2
+      ;;
+    --output-directory=*)
+      output_dir="${1#*=}"
+      shift
+      ;;
+    --output-directory)
+      output_dir="$2"
+      shift 2
+      ;;
+    *)
+      shift
+      ;;
+  esac
+done
+set -- "${original_args[@]}"
 
 
 lastarg="${*: -1}"
@@ -12,15 +43,56 @@ bcf_dir=$(dirname "$bcf")
 jobname=$(basename "$lastarg" ".bcf")
 bib_ex="${bcf_stem}.exttmp.bib"
 
+opening_tag='<bcf:datasource type="file" datatype="bibtex" glob="false">'
+closing_tag='</bcf:datasource>'
+
+# Find the path to the BibTeX file in the BCF file
+mapfile -t matches < <(sed -n "s&.*$opening_tag\($bib_regex\)$closing_tag.*&\1&p" "$bcf")
+if [[ ${#matches[@]} -eq 1 ]]; then
+    # We found exactly one match, so we can use it.
+    bib="${matches[0]}"
+else
+    if [[ ${#matches[@]} -eq 0 ]]; then
+        echo "$0 ERROR - Found no data sources that match pattern '$bib_regex'!" >&2
+    else
+        echo "$0 ERROR - Found more than one data source that matches pattern '$bib_regex'!" >&2
+    fi
+    exit 1
+fi
+
+# If the path is relative, Biber interprets it relative to (see the manual):
+#   1. --input-directory if specified
+#   2. --output-directory if specified and --input-directory is not specified
+#   3. the current working directory
+#   4. the directory of the BCF file
+# If all of this fails, it falls back on kpsewhich.
+#
+# We construct a suitable BIBINPUTS and delegate finding the file to kpsewhich.
+option_dir="${input_dir:-${output_dir:-}}"
+bibinputs_override="${option_dir:+$option_dir:}$PWD:$bcf_dir:$BIBINPUTS"
+bib_abs=$(BIBINPUTS="$bibinputs_override" kpsewhich -format=bib "$bib") || (
+    # Delegate printing the error message to Biber. This guarantees that
+    # latexmk and friends will be able to parse it.
+    biber "$@"
+    ret=$?
+    echo "$0 ERROR - Cannot find '$bib'!" >&2
+    if [[ $ret -eq 0 ]]; then
+      echo "$0 ERROR - Biber found '$bib' unexpectedly, see its log file!" >&2
+      exit 1
+    fi
+    exit $ret
+)
+echo "$0 INFO - '$bib' found at '$bib_abs'." >&2
+
 # Switch to the directory of this script
 cd "${BASH_SOURCE%/*}" || exit 1
 
 # Do the extraction
-./vendor/extract_from_bibliography/extract_from_bibliography.py "$bcf" "$bib" > "$bib_ex"
+./vendor/extract_from_bibliography/extract_from_bibliography.py "$bcf" "$bib_abs" > "$bib_ex"
 
 # Modify the BCF file to use the extracted BibTeX file
 bcf_ex="${bcf_stem}.exttmp.bcf"
-sed -e "s&>$bib</bcf:datasource>&>$bib_ex</bcf:datasource>&" "$bcf" > "$bcf_ex"
+sed -e "s&$opening_tag$bib_regex$closing_tag&$opening_tag$bib_ex$closing_tag&" "$bcf" > "$bcf_ex"
 
 # Call biber with the modified BCF file
 biber "${@:1:$#-1}" "$bcf_ex"
