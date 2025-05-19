@@ -95,15 +95,19 @@ bcf_ex="${bcf_stem}.exttmp.bcf"
 sed -e "s&$opening_tag$bib_regex$closing_tag&$opening_tag$bib_ex$closing_tag&" "$bcf" > "$bcf_ex"
 
 # Call biber with the modified BCF file
+set +e
 biber "${@:1:$#-1}" "$bcf_ex"
 ret=$?
+set -e
+
+# Rename the generated files to have the right jobname
+mv "${bcf_stem}.exttmp.bbl" "$bcf_dir/$jobname.bbl" || true
+mv "${bcf_stem}.exttmp.blg" "$bcf_dir/$jobname.blg" || true
+
+# If biber failed, exit here.
 if [ $ret -ne 0 ]; then
     exit $ret
 fi
-
-# Rename the generated files to have the right jobname
-mv "${bcf_stem}.exttmp.bbl" "$bcf_dir/$jobname.bbl"
-mv "${bcf_stem}.exttmp.blg" "$bcf_dir/$jobname.blg"
 
 # Remove the temporary files
 #
