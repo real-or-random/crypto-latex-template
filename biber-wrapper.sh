@@ -6,6 +6,10 @@ set -e
 #     A regex (BRE) matching the path to the original BibTeX file as specified
 #     using \addbibresource{path}. May not contain "<", ">", and "&".
 bib_regex="\(\|.*/\)crypto.bib"
+#   extract_from_bibliography:
+#     Path to the Python script that extracts from the BibTeX file, relative to
+#     the directory of this bash script. The Python script must be executable.
+extract_from_bibliography="vendor/extract_from_bibliography/extract_from_bibliography.py"
 
 
 # Parse arguments
@@ -85,7 +89,7 @@ bib_abs=$(BIBINPUTS="$bibinputs_override" kpsewhich -format=bib "$bib") || (
 echo "$0 INFO - '$bib' found at '$bib_abs'." >&2
 
 # Do the extraction
-"${BASH_SOURCE%/*}/vendor/extract_from_bibliography/extract_from_bibliography.py" "$bcf" "$bib_abs" > "$bib_ex"
+"${BASH_SOURCE%/*}/$extract_from_bibliography" "$bcf" "$bib_abs" > "$bib_ex"
 
 # Modify the BCF file to use the extracted BibTeX file
 bcf_ex="${bcf_stem}.exttmp.bcf"
