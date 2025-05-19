@@ -84,11 +84,8 @@ bib_abs=$(BIBINPUTS="$bibinputs_override" kpsewhich -format=bib "$bib") || (
 )
 echo "$0 INFO - '$bib' found at '$bib_abs'." >&2
 
-# Switch to the directory of this script
-cd "${BASH_SOURCE%/*}" || exit 1
-
 # Do the extraction
-./vendor/extract_from_bibliography/extract_from_bibliography.py "$bcf" "$bib_abs" > "$bib_ex"
+"${BASH_SOURCE%/*}/vendor/extract_from_bibliography/extract_from_bibliography.py" "$bcf" "$bib_abs" > "$bib_ex"
 
 # Modify the BCF file to use the extracted BibTeX file
 bcf_ex="${bcf_stem}.exttmp.bcf"
