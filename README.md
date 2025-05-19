@@ -17,3 +17,17 @@ latexmk
 # See the compiled document for further documentation
 xdg-open main.pdf
 ```
+
+## Editor Configuration
+
+### Emacs / AUCTeX
+
+Create a file `src/.dir-locals.el` with contents:
+
+``` emacs-lisp
+;;; Directory Local Variables            -*- no-byte-compile: t -*-
+;;; For more information see (info "(emacs) Directory Variables")
+
+((nil . ((TeX-command-default . "LaTeXMk")
+         (TeX-master . "main"))))
+```
