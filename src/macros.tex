@@ -19,10 +19,6 @@
 % (No idea why cryptocode treats them specially.)
 \RenewDocumentCommand\pckeystyle{m}{\ensuremath{\var{#1}}}
 \RenewDocumentCommand\pcpolynomialstyle{m}{\ensuremath{\var{#1}}}
-% Add 1pt padding to \gamechange (based on original definition).
-\renewcommand{\gamechange}[2][gamechangecolor]{%
-  {\setlength{\fboxsep}{1pt}%
-    \colorbox{#1}{#2}}}
 % Shorthand for \pcalgostyle
 \NewDocumentCommand\algo{}{\pcalgostyle}
 % Oracles
