@@ -20,7 +20,7 @@ xdg-open main.pdf
 
 ## Editor Configuration
 
-### Emacs / AUCTeX
+### Emacs (AUCTeX and RefTeX)
 
 Create a file `src/.dir-locals.el` with contents:
 
@@ -30,4 +30,14 @@ Create a file `src/.dir-locals.el` with contents:
 
 ((nil . ((TeX-command-default . "LaTeXMk")
          (TeX-master . "main"))))
+```
+
+
+Also, add the following to your configuration file:
+
+```emacs-lisp
+(setq reftex-use-external-file-finders t)
+(setq reftex-external-file-finders
+      '(("tex" . "kpsewhich -format=.tex %f")
+        ("bib" . "kpsewhich -format=.bib %f")))
 ```
