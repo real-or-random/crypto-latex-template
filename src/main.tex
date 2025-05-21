@@ -237,7 +237,7 @@
 ]{cryptocode}
 \DeactivateWarningFilters[theH]
 
-% Better version of \pcfixcleveref:
+% Better version of \pcfixcleveref
 % (see https://github.com/arnomi/cryptocode/pull/15)
 \IfPackageLoadedTF{cleveref}{
   \AtBeginDocument{
@@ -249,6 +249,22 @@
     % crytocode and cleveref, e.g., referencing games, see: https://tex.stackexchange.com/questions/623163/cryptocode-cref-should-link-to-a-game-and-write-its-name/623196#623196
   }
 }{}
+
+% Fix \gamechange to expect math mode contents
+% (see https://github.com/arnomi/cryptocode/pull/21 )
+\renewcommand{\gamechange}[2][gamechangecolor]{%
+  {\setlength{\fboxsep}{0pt}\ifmmode%
+      \mathchoice{%
+        \colorbox{#1}{$\displaystyle#2$}%
+      }{%
+        \colorbox{#1}{$#2$}%
+      }{%
+        \colorbox{#1}{$\scriptstyle#2$}%
+      }{%
+        \colorbox{#1}{$\scriptscriptstyle#2$}%
+      }%
+    \else{#2}\fi}%
+}
 
 % Improved paired delimiters
 % Usage: \abs{x} for auto-scaling, or \abs[\bigg] for manual scaling
