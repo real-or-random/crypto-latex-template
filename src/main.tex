@@ -67,7 +67,7 @@
 \let\proof\relax
 \let\endproof\relax
 \usepackage{amsthm}
-\usepackage{mathtools}  % for \coloneq
+\usepackage{mathtools}  % for \coloneq and \DeclarePairedDelimiter
 
 %%% Notes and Todos
 \NewDocumentCommand\newuser{m m m}{%
@@ -213,6 +213,7 @@
 \Crefname{construction}{Construction}{Constructions}
 
 %%% Cryptocode
+%%% TODO Extract this into a "mycryptocode.sty" package
 \WarningFilter*[theH]{latex}{Command `\string\the}%
 \ActivateWarningFilters[theH]
 \usepackage[
@@ -248,6 +249,19 @@
     % crytocode and cleveref, e.g., referencing games, see: https://tex.stackexchange.com/questions/623163/cryptocode-cref-should-link-to-a-game-and-write-its-name/623196#623196
   }
 }{}
+
+% Improved paired delimiters
+% Usage: \abs{x} for auto-scaling, or \abs[\bigg] for manual scaling
+\makeatletter
+\RenewDocumentCommand\floor{om}{\IfValueTF{#1}{\pc@floor[#1]{#2}}{\pc@floor*{#2}}}
+\RenewDocumentCommand\ceil{om}{\IfValueTF{#1}{\pc@ceil[#1]{#2}}{\pc@ceil*{#2}}}
+\RenewDocumentCommand\Angle{om}{\IfValueTF{#1}{\pc@Angle[#1]{#2}}{\pc@Angle*{#2}}}
+\RenewDocumentCommand\abs{om}{\IfValueTF{#1}{\pc@abs[#1]{#2}}{\pc@abs*{#2}}}
+\RenewDocumentCommand\norm{om}{\IfValueTF{#1}{\pc@norm[#1]{#2}}{\pc@norm*{#2}}}
+\DeclarePairedDelimiter{\pc@bracks}{\lbrack}{\rbrack}
+\NewDocumentCommand\bracks{om}{\IfValueTF{#1}{\pc@bracks[#1]{#2}}{\pc@bracks*{#2}}}
+\NewDocumentCommand\pr{om}{\Pr\bracks[#1]{#2}}
+\makeatother
 
 %%% Append "." to subsubsection and paragraph headings
 \let\llncssubsubsection\subsubsection
