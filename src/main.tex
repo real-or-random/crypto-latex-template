@@ -129,6 +129,23 @@
        {}
        {\addspace\texttt{\mkbibbrackets{\thefield{eprintclass}}}}}}
 
+\DeclareSourcemap{
+  \maps[datatype=bibtex]{
+    \map{
+      \step[fieldsource=howpublished, match=\regexp{\ACryptology\x20ePrint\x20Archive,\x20Report\x20(\d+)/(\d+)\z}, final]
+      \step[fieldset=eprint, fieldvalue={$1/$2}]
+      \step[fieldset=eprinttype, fieldvalue={iacr}]
+      \step[fieldset=howpublished, null]
+    }
+    \map{
+      \step[fieldsource=url, match=\regexp{https://eprint\.iacr\.org/(\d+)/(\d+)}, final]
+      \step[fieldset=eprinttype, fieldvalue={iacr}]
+      \step[fieldset=eprint, fieldvalue={$1/$2}]
+      \step[fieldset=url, null]
+    }
+  }
+}
+
 \addbibresource{cryptobib/abbrev3.bib}
 % "crypto.bib" will be treated specially: We use the biber-wrapper.sh
 % script to extract the cited entries from crypto.bib into a temporary
