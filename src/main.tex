@@ -22,18 +22,24 @@
 %% Use legacy BibTeX instead of Biber
 % \bibtextrue
 
+%%% Document class
+\ifcameraready
+  % Disable all patching done by llncsstandalone and use plain llncs
+  \PassOptionsToClass{nostandalone}{llncsstandalone}
+\else
+  % Adjust margins for "big" paper
+  \PassOptionsToClass{adjustmargins}{llncsstandalone}
+\fi
 \documentclass[
   % Pass either "a4paper" or "letterpaper" explicitly.
   % (If the paper size is not specified, it will depend on the default
   % set in the (La)TeX installation.)
   a4paper,
-  orivec,oribibl]{llncs}
-\unless\ifcameraready
-    \usepackage{llncsstandalone}  % local package
-    % This is equivalent to 3cm margins (and the page shifted 0.5cm up)
-    % on a4paper but gives an identical textblock on letterpaper.
-    \usepackage[twoside=false, textwidth=150mm, textheight=237mm, vmarginratio=5:7, footskip=13mm]{geometry}
-\fi
+  orivec,oribibl]{llncsstandalone}
+
+%% Uncomment to set margins manually (see the geometry package).
+% \geometry{textwidth=150mm, textheight=237mm, vmarginratio=5:7, footskip=14mm}
+
 \usepackage[save]{silence}
 \usepackage[T1]{fontenc}
 \usepackage{lmodern}
@@ -375,10 +381,10 @@
 \fi
 
 %%% Table of Contents
-\iffull
+\iffull\ifcameraready
   \tableofcontents
   \clearpage
-\fi
+\fi\fi
 
 %%% Uncomment this for usage notes on this LaTeX template
 \input{../README-TEMPLATE.tex}
