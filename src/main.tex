@@ -22,6 +22,11 @@
 %% Use legacy BibTeX instead of Biber
 % \bibtextrue
 
+\ifcameraready\iffull
+  \GenericError{}{crypto-template Error: \protect\fulltrue\space is incompatible with \protect\camerareadytrue}%
+  {See the settings at the top of \jobname.tex.}{Set either \protect\fullfalse\space or \protect\camerareadyfalse\space.}%
+\fi\fi
+
 %%% Document class
 \ifcameraready
   % Disable all patching done by llncsstandalone and use plain llncs
