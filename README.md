@@ -6,9 +6,11 @@
 # Install cryptobib into your TEXMFHOME (defaults to $HOME/texmf).
 # (It will be available to all your LaTeX documents, so this needs
 # to be done only once.)
-bibhome="$(kpsewhich -var-value TEXMFHOME)/bibtex/bib"
+texmfhome="$(kpsewhich -var-value TEXMFHOME)"
+bibhome="$texmfhome/bibtex/bib"
 mkdir -p "$bibhome"
 git clone https://github.com/cryptobib/export "$bibhome/cryptobib"
+mktexlsr "$texmfhome"
 
 # Compile the document
 cd src
