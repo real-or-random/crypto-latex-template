@@ -221,18 +221,27 @@
 
 %%% Cross-references
 \usepackage[capitalize, nameinlink]{cleveref}
-% Force "eq.", "line" and "item" to be lowercase.
-% "eq.~" is a bit involved: We'll \crefformat to include the "~",
-% but we don't want to abbreviate at the beginning of a sentence.
-\crefformat{equation}{#2eq.~(#1)#3}
-\Crefformat{equation}{#2Equation~(#1)#3}
-\crefmultiformat{equation}{eqs.~(#2#1#3)}{ and~(#2#1#3)}{, (#2#1#3)}{ and~(#2#1#3)}
-\Crefmultiformat{Equation}{Equations~(#2#1#3)}{ and~(#2#1#3)}{, (#2#1#3)}{ and~(#2#1#3)}
-\crefrangeformat{equation}{eqs.~(#3#1#4) to~(#5#2#6)}
-\crefrangeformat{Equation}{Equations~(#3#1#4) to~(#5#2#6)}
-\crefrangemultiformat{equation}{eqs.~(#3#1#4) to~(#5#2#6)}{ and~(#3#1#4) to~(#5#2#6)}{, (#3#1#4) to~(#5#2#6)}{, and~(#3#1#4) to~(#5#2#6)}
-\Crefrangemultiformat{equation}{Equations~(#3#1#4) to~(#5#2#6)}{ and~(#3#1#4) to~(#5#2#6)}{, (#3#1#4) to~(#5#2#6)}{, and~(#3#1#4) to~(#5#2#6)}
-\Crefname{equation}{Equation}{Equations}  % Don't abbreviate at start of sentence
+
+% Use en-dash instead of " to~" for ranges.
+\newcommand{\crefrangeconjunction}{--}
+% Omit the word "equation" except at the start of a sentence.
+\crefname{equation}{}{}
+\Crefname{equation}{Equation}{Equations}
+% \crefrangeconjunction is not sufficient for equations because
+% the en dash will wrongly be in italic when the surrounding text is.
+% So we'll need to provide full low-level definitions for range formats.
+\crefrangeformat{equation}{\textup{#3(#1)#4--#5(#2)#6}}
+\crefrangemultiformat{equation}{\textup{#3(#1)#4--#5(#2)#6}}%
+  { and \textup{#3(#1)#4--#5(#2)#6}}%
+  {, \textup{#3(#1)#4--#5(#2)#6}}%
+  {, and \textup{#3(#1)#4--#5(#2)#6}}
+\Crefrangeformat{equation}{Equations~\textup{#3(#1)#4--#5(#2)#6}}
+\Crefrangemultiformat{equation}{Equations~\textup{#3(#1)#4--#5(#2)#6}}%
+  { and \textup{#3(#1)#4--#5(#2)#6}}%
+  {, \textup{#3(#1)#4--#5(#2)#6}}%
+  {, and \textup{#3(#1)#4--#5(#2)#6}}%
+% Force "line" and "item" to be lowercase.
+% TODO Should we also just omit "item"?
 \crefname{line}{line}{lines}
 \Crefname{line}{Line}{Lines}
 \crefname{enumi}{item}{items}

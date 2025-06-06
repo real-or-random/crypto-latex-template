@@ -48,13 +48,16 @@ This template adds \texttt{assumption}.
   \end{equation}
 \end{theorem}
 \begin{proof}[Proof (handwavy)]
-  Believe, me, this \cref{eq:my-thm}, it's true.
+  Believe, me, \cref{eq:my-thm} holds.
   But here's an equation to demonstrate that \verb|\qedhere| works:
-  \[ c = m+rx . \qedhere \]
+  \begin{equation}\label{eq:my-thm3}
+    c = m+rx . \qedhere
+  \end{equation}
 \end{proof}
 
 \begin{lemma}\label{thm:a-lemma}
   $10\,\btcsym$ is a lot of money.
+  See also \cref{thm:my-thm}.
 \end{lemma}
 \begin{proof}
   Follows from the theorem.
@@ -90,10 +93,15 @@ It's a good idea to define the \texttt{shorthand} field in the bib file for BIPs
         Use \verb|\cref{label,maybe-another-label}| to insert a reference, \eg, \cref{sec:intro,thm:my-thm,ass:very-hard}.
         The prefix, \eg, ``Theorem'' or ``Appendix'' will be added automatically.
   \item
-        References to equations, list items, and line numbers (\cref{line:false,item:one,eq:my-thm}) are not capitalized.
-        Use \verb|\Cref| to force uppercase, \eg, at the beginning of a sentence.
-        Then you get:
+        References to list items, and line numbers (\cref{line:false,item:one}) are not capitalized.
+        The word ``equation'' (or ``eq.'') is omitted in front of a reference to an equation, \eg, \cref{eq:my-thm,eq:my-thm2}.
+        Use \verb|\Cref| at the beginning of a sentence to force upper-case and to force typesetting the word ``Equation''.
+        For example:
         \Cref{line:false,item:one}. But: \Cref{item:one}. And: \Cref{eq:my-thm,eq:my-thm2,item:one}.
+        Ranges are typeset with an en dash.
+        \emph{By the way, equation numbers are always typeset upright,
+        \eg, \cref{eq:my-thm,eq:my-thm2,eq:my-thm3},
+        even when the surrounding text is italic.}
 \end{enumerate}
 
 
