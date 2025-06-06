@@ -18,6 +18,12 @@ latexmk
 
 # See the compiled document for further documentation
 xdg-open main.pdf
+
+# Later, pull the latest additions to cryptobib
+texmfhome="$(kpsewhich -var-value TEXMFHOME)"
+bibhome="$texmfhome/bibtex/bib"
+git -C "$bibhome/cryptobib" pull
+mktexlsr "$texmfhome"
 ```
 
 ## Editor Configuration
