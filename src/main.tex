@@ -124,24 +124,27 @@
   ]{biblatex}
 \fi
 
-%%% Printing ePrint identifiers
-\newcommand\iacreprintname{Cryptology ePrint Archive}
-%% Shorter alternative:
-% \newcommand\iacreprintname{IACR ePrint}
-% TODO Consider just "\textsc{IACR}" (like for URL and DOI).
-\DeclareFieldFormat{eprint:iacr}{%
-  \iacreprintname\addcolon\space
-  \ifhyperref
-    {\href{https://eprint.iacr.org/#1}{%
-       \nolinkurl{#1}%
-       \iffieldundef{eprintclass}
-         {}
-         {\addspace\texttt{\mkbibbrackets{\thefield{eprintclass}}}}}}
-    {\nolinkurl{#1}%
-     \iffieldundef{eprintclass}
-       {}
-       {\addspace\texttt{\mkbibbrackets{\thefield{eprintclass}}}}}}
+%%% cryptobib
+% The files are supposed to be found in TEXMFHOME, see README.md. We'd
+% prefer to specify subdirs (i.e., {cryptobib/abbrev3.bib} and
+% {cryptobib/crypto.bib}) but texlab doesn't like this, see
+% https://github.com/latex-lsp/texlab/issues/1406. Note that, while
+% export and export_crossref both ship the abbrevX.bib files, these are
+% identical, so there's no danger of confusion, even if the both are in
+% TEXMFHOME (as long as both of them are updated in sync).
+%
+% "crypto.bib" will be treated specially: We use the biber-wrapper.sh
+% script to extract the cited entries from crypto.bib into a temporary
+% bib file and then call biber on it, to avoid that biber takes very
+% long to process the huge crypto.bib. All of this should happen
+% automatically and transparently if you use latexmk.
+\addbibresource{abbrev3.bib}
+\addbibresource{crypto.bib}
 
+%%% Local bibliographies
+\addbibresource{add.bib}
+
+%%% Source maps (there must be only a single \DeclareSourcemap)
 \DeclareSourcemap{
   \maps[datatype=bibtex]{
     % Use proper "eprint" fields for IACR Cryptology Archive
@@ -164,25 +167,23 @@
   }
 }
 
-%%% cryptobib
-% The files are supposed to be found in TEXMFHOME, see README.md. We'd
-% prefer to specify subdirs (i.e., {cryptobib/abbrev3.bib} and
-% {cryptobib/crypto.bib}) but texlab doesn't like this, see
-% https://github.com/latex-lsp/texlab/issues/1406. Note that, while
-% export and export_crossref both ship the abbrevX.bib files, these are
-% identical, so there's no danger of confusion, even if the both are in
-% TEXMFHOME (as long as both of them are updated in sync).
-%
-% "crypto.bib" will be treated specially: We use the biber-wrapper.sh
-% script to extract the cited entries from crypto.bib into a temporary
-% bib file and then call biber on it, to avoid that biber takes very
-% long to process the huge crypto.bib. All of this should happen
-% automatically and transparently if you use latexmk.
-\addbibresource{abbrev3.bib}
-\addbibresource{crypto.bib}
-
-%%% Local bibliographies
-\addbibresource{add.bib}
+%%% Printing ePrint identifiers
+\newcommand\iacreprintname{Cryptology ePrint Archive}
+%% Shorter alternative:
+% \newcommand\iacreprintname{IACR ePrint}
+% TODO Consider just "\textsc{IACR}" (like for URL and DOI).
+\DeclareFieldFormat{eprint:iacr}{%
+  \iacreprintname\addcolon\space
+  \ifhyperref
+    {\href{https://eprint.iacr.org/#1}{%
+       \nolinkurl{#1}%
+       \iffieldundef{eprintclass}
+         {}
+         {\addspace\texttt{\mkbibbrackets{\thefield{eprintclass}}}}}}
+    {\nolinkurl{#1}%
+     \iffieldundef{eprintclass}
+       {}
+       {\addspace\texttt{\mkbibbrackets{\thefield{eprintclass}}}}}}
 
 %%% Save space in references
 \AtEveryBibitem{
