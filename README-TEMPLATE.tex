@@ -112,8 +112,13 @@ It's a good idea to define the \texttt{shorthand} field in the bib file for BIPs
 }
 
 
-\subsection{Macros, \eg, $\btcsym$, $\algo{Sign}$, $\pk$, $\defeq$, and $\xmark$ Are Mostly Robust and Can Thus be Used in Moving Arguments like Section Headings}
-If not, try to put a \verb|\protect| in front of them when using them.
+\subsection{Macros \texorpdfstring{(\eg, $\btcsym$, $\algo{Sign}$, $\pk$, $\defeq$, and $\xmark$) }{}Are Mostly Robust}
+Thus, they can be used in moving arguments such as section headings.
+If not, try to put a \verb|\protect| in front of them.
+
+A drawback of robustness is that PDF metadata such as bookmarks created from section headings,
+will contain the \LaTeX{} source code instead of the expanded macro.
+You probably want to use \verb|\texorpdfstring{<actual LaTeX code>}{<plaintext for PDF bookmark>}| to fix that.
 
 
 \subsection{Pseudocode (\texttt{cryptocode})}
