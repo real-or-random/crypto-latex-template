@@ -4,13 +4,13 @@ This is a brief overview.
 See the respective package documentation for more details. (Hint: Try \texttt{texdoc -l <pkg>} if you use TeXLive or check out \url{https://texdoc.org/}.)
 The source code of this file (\texttt{\CurrentFile}) may be instructive, too.
 
-The root source file is \texttt{main.tex}.
 
 
 \subsection{Compilation}
 It's recommended to use \texttt{latexmk}.
 A configuration file is included, so simply running \texttt{latexmk} from the \texttt{src} directory without arguments is enough.
 Use \texttt{latexmk -C} to clean auxiliary files, which are all stored in the \texttt{latex.out} directory.
+The root source file is \texttt{main.tex}.
 
 
 \subsection{Toggles}
@@ -58,16 +58,9 @@ This template adds \texttt{assumption}.
   \]
 \end{proof}
 
-\begin{lemma}\label{thm:a-lemma}
-  $10\,\btcsym$ is a lot of money.
-  See also \cref{thm:my-thm}.
-\end{lemma}
-\begin{proof}
-  Follows from the theorem.
-\end{proof}
-
 \begin{assumption}[VERY-HARD-PROB]\label{ass:very-hard}
-  It's hard, you know?
+  Getting $10\,\btcsym$ is a very hard work.
+  See also \cref{thm:my-thm}.
 \end{assumption}
 
 \begin{remark}\label{rem:add-env}
@@ -109,9 +102,9 @@ It's a good idea to define the \texttt{shorthand} field in the bib file for BIPs
 
 
 \subsection{Notes and Todos (\texttt{todonotes})}
-Set \verb|\notestrue| to display them.
 \newuser{readme}{Template}{orange!20}
 \readmenote{
+  Set \texttt{\textbackslash{}notestrue} to enable displaying notes.
   You can define a user with \texttt{\textbackslash{}newuser}, \eg,  \texttt{\textbackslash{}newuser\textbraceleft{}s\textbraceright{}\textbraceleft{}Satoshi\textbraceright{}\textbraceleft{}orange\textbraceright{}}, see the source code.
   This will create the user-specific command \texttt{\textbackslash{}snote} for inserting notes.
 
@@ -124,8 +117,8 @@ If not, try to put a \verb|\protect| in front of them when using them.
 
 
 \subsection{Pseudocode (\texttt{cryptocode})}
-See the source code.
-\begin{figure}[tbhp]
+See the source code of \cref{fig:scheme}.
+\begin{figure}[bthp]
   \begin{center}
     % If you omit the width, then it will be 100%.
     % Try to specify boxsep=1mm or smaller if space is tight
@@ -133,7 +126,7 @@ See the source code.
       \begin{pchstack}[center]
         \begin{pcvstack}
           \procedure[linenumbering]{$\algo{Alg}(\secpar)$}{%
-            y \gets \ZZ_p \\
+            \pcbox{x \sample \ZZ_p \pcsc \pcreturn \sk + x} \\
             \pcreturn \pcfalse \label{line:false}
           }
           \pcvspace
@@ -149,7 +142,6 @@ See the source code.
           }
           \pcvspace
           \procedure[headlinesep=1pt]{$\oracle{Bar}(\sk, \pk)$}{%
-            \pcbox{x \sample \ZZ_p \pcsc \pcreturn \sk + x} \\
             y \sample \ZZ_p
           }
         \end{pcvstack}
