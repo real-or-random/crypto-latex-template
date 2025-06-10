@@ -1,15 +1,24 @@
 \NeedsTeXFormat{LaTeX2e}
 \ProvidesPackage{biblatex-iacr-eprint}[2025-06-10 v0.1 Support for IACR ePrints in BibLaTeX]
 
+\let\ifbiblatexiacreprint@fullname\iffalse
+\DeclareOption{fullname}{\let\ifbiblatexiacreprint@fullname\dfiftrue}
+\ProcessOptions\relax
+
 \RequirePackage{biblatex}[2018-02-20]  % v3.11, support for multiple \DeclareSourcemap
 
 %%% Printing ePrint identifiers
-\newcommand\iacreprintname{Cryptology ePrint Archive}
-%% Shorter alternative:
-% \newcommand\iacreprintname{IACR ePrint}
-% TODO Consider just "\textsc{IACR}" (like for URL and DOI).
+\ifbiblatexiacreprint@fullname
+  \newcommand\iacreprintname{Cryptology ePrint Archive\addcolon}
+\else
+  % Small caps acronym like "URL" and "DOI"
+  \newcommand\iacreprintname{\mkbibacro{IACR}\addcolon}
+\fi
+%% Alternatives:
+% \newcommand\iacreprintname{Cryptology ePrint Archive, Report}  % as in cryptobib
+% \newcommand\iacreprintname{IACR ePrint\addcolon}
 \DeclareFieldFormat{eprint:iacr}{%
-  \iacreprintname\addcolon\space
+  \iacreprintname\space%
   \ifhyperref
     {\href{https://eprint.iacr.org/#1}{%
        \nolinkurl{#1}%

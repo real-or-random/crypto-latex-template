@@ -1,0 +1,286 @@
+\usepackage[save]{silence}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
+
+%%% Misc early packages
+\usepackage[english]{babel}
+\usepackage{csquotes}
+\usepackage[babel,final]{microtype}
+\usepackage{xpunctuate}
+\usepackage{pifont}  % Dingbats
+\usepackage{tcolorbox}
+\tcbset{colback=white, size=title, boxsep=2mm}
+
+%%% Colors
+\usepackage[dvipsnames,svgnames,x11names]{xcolor}
+\definecolor{bitcoin-orange}{RGB}{246, 145, 29}
+
+%%% Math
+\usepackage{amsmath}  % mostly for \qedhere
+\usepackage{fixcmex}
+% amsthm's proof environment conflicts with that of llncs
+\let\lncsproof\proof
+\let\lncsendproof\endproof
+\let\proof\relax
+\let\endproof\relax
+\usepackage{amsthm}
+\usepackage{mathtools}  % for \coloneq and \DeclarePairedDelimiter
+
+%%% Notes and Todos
+\NewDocumentCommand\newuser{m m m}{%
+  \expandafter\NewDocumentCommand\csname #1note\endcsname{s O{} +m}{
+    % Ensure that todos after paragraph headings are properly displayed
+    \quitvmode%
+    \texorpdfstring{%
+      \todo[color=#3, inline, caption={}, ##2]{\textbf{#2:} ##3}%
+    }{(Note by #2: ##3)}%
+  }}
+\ifnotes
+  \usepackage{todonotes}
+\else
+  \usepackage[disable]{todonotes}
+\fi
+
+\iflabels
+  \usepackage[notref,notcite,color]{showkeys}
+\fi
+
+%%% Bibliography
+\ifbibtex
+  \PassOptionsToPackage{backend=bibtex}{biblatex}
+\fi
+\PassOptionsToPackage{
+  date=year,
+  maxnames=3,
+  minnames=3,
+}{biblatex}
+\ifcameraready
+  \usepackage[
+  style=biblatex-lncs/lncs,
+  ]{biblatex}
+  % Disable shorthands, see https://github.com/plk/biblatex/issues/1427
+  \DeclareFieldInputHandler{shorthand}{\def\NewValue{}}
+\else
+  \usepackage[
+  style=alphabetic,
+  maxbibnames=15,
+  minbibnames=15,
+  ]{biblatex}
+\fi
+
+%%% cryptobib
+% The files are supposed to be found in TEXMFHOME, see README.md. We'd
+% prefer to specify subdirs (i.e., {cryptobib/abbrev3.bib} and
+% {cryptobib/crypto.bib}) but texlab doesn't like this, see
+% https://github.com/latex-lsp/texlab/issues/1406. Note that, while
+% export and export_crossref both ship the abbrevX.bib files, these are
+% identical, so there's no danger of confusion, even if the both are in
+% TEXMFHOME (as long as both of them are updated in sync).
+%
+% "crypto.bib" will be treated specially: We use the biber-wrapper.sh
+% script to extract the cited entries from crypto.bib into a temporary
+% bib file and then call biber on it, to avoid that biber takes very
+% long to process the huge crypto.bib. All of this should happen
+% automatically and transparently if you use latexmk.
+\addbibresource{abbrev3.bib}
+\addbibresource{crypto.bib}
+
+%%% Local bibliographies
+\addbibresource{add.bib}
+
+%%% Source maps (there must be only a single \DeclareSourcemap)
+\DeclareSourcemap{
+  \maps[datatype=bibtex]{
+    % Use proper "eprint" fields for IACR Cryptology Archive
+    \map{
+      \step[fieldsource=howpublished, match=\regexp{\ACryptology\x20ePrint\x20Archive,\x20Report\x20(\d+)/(\d+)\z}, final]
+      \step[fieldset=eprint, fieldvalue={$1/$2}]
+      \step[fieldset=eprinttype, fieldvalue={iacr}]
+      \step[fieldset=howpublished, null]
+    }
+    \map{
+      \step[fieldsource=url, match=\regexp{https://eprint\.iacr\.org/(\d+)/(\d+)}, final]
+      \step[fieldset=eprinttype, fieldvalue={iacr}]
+      \step[fieldset=eprint, fieldvalue={$1/$2}]
+      \step[fieldset=url, null]
+    }
+    % In, e.g., "CRYPTO 2019, Part II", remove ", Part II"
+    \map{
+      \step[fieldsource=booktitle, match=\regexp{(.*),\x20Part~I+}, replace={$1}, final]\iffalse$\fi
+    }
+  }
+}
+
+%%% Printing ePrint identifiers
+\newcommand\iacreprintname{Cryptology ePrint Archive}
+%% Shorter alternative:
+% \newcommand\iacreprintname{IACR ePrint}
+% TODO Consider just "\textsc{IACR}" (like for URL and DOI).
+\DeclareFieldFormat{eprint:iacr}{%
+  \iacreprintname\addcolon\space
+  \ifhyperref
+    {\href{https://eprint.iacr.org/#1}{%
+       \nolinkurl{#1}%
+       \iffieldundef{eprintclass}
+         {}
+         {\addspace\texttt{\mkbibbrackets{\thefield{eprintclass}}}}}}
+    {\nolinkurl{#1}%
+     \iffieldundef{eprintclass}
+       {}
+       {\addspace\texttt{\mkbibbrackets{\thefield{eprintclass}}}}}}
+
+%%% Save space in references
+\AtEveryBibitem{
+  % See Section 2.2.2 in the BibLaTeX manual for the field types
+  \unless\iffull
+    \clearfield{doi}
+  \fi
+  \clearlist{location}
+  \clearname{editor}
+  \clearfield{pages}
+  \ifentrytype{inproceedings}{
+      \clearfield{year}
+      \clearfield{volume}
+      \clearlist{publisher}
+      \clearfield{series}
+    }{}
+}
+
+%%% hyperref
+\unless\ifcameraready
+  \PassOptionsToPackage{pdfusetitle}{hyperref}
+\fi
+\usepackage{hyperref}
+\hypersetup{
+  hypertexnames=false,
+}
+\unless\ifcameraready
+  \hypersetup{
+    colorlinks=true,
+    allcolors=blue,
+    bookmarksopen,
+  }
+\usepackage{bookmark}
+\fi
+
+%%% Cross-references
+\usepackage[capitalize, nameinlink]{cleveref}
+
+% Use en-dash instead of " to~" for ranges.
+\newcommand{\crefrangeconjunction}{--}
+% Omit the word "equation" except at the start of a sentence.
+\crefname{equation}{}{}
+\Crefname{equation}{Equation}{Equations}
+% \crefrangeconjunction is not sufficient for equations because
+% the en dash will wrongly be in italic when the surrounding text is.
+% So we'll need to provide full low-level definitions for range formats.
+\crefrangeformat{equation}{\textup{#3(#1)#4--#5(#2)#6}}
+\crefrangemultiformat{equation}{\textup{#3(#1)#4--#5(#2)#6}}%
+  { and \textup{#3(#1)#4--#5(#2)#6}}%
+  {, \textup{#3(#1)#4--#5(#2)#6}}%
+  {, and \textup{#3(#1)#4--#5(#2)#6}}
+\Crefrangeformat{equation}{Equations~\textup{#3(#1)#4--#5(#2)#6}}
+\Crefrangemultiformat{equation}{Equations~\textup{#3(#1)#4--#5(#2)#6}}%
+  { and \textup{#3(#1)#4--#5(#2)#6}}%
+  {, \textup{#3(#1)#4--#5(#2)#6}}%
+  {, and \textup{#3(#1)#4--#5(#2)#6}}%
+% Force "line" and "item" to be lowercase.
+% TODO Should we also just omit "item"?
+\crefname{line}{line}{lines}
+\Crefname{line}{Line}{Lines}
+\crefname{enumi}{item}{items}
+\Crefname{enumi}{Item}{Items}
+
+%%% Alternative for cross-references
+% \usepackage{zref-clever}
+% \zcsetup{cap}
+% % Replacement for \namecref
+% \newcommand{\zcnameref}[1]{\zcref*[noref,nocap]{#1}}
+% \zcRefTypeSetup{assumption}{
+%   Name-sg = Assumption ,
+%   name-sg = assumption ,
+%   Name-pl = Assumptions ,
+%   name-pl = assumptions ,
+% }
+% \zcRefTypeSetup{equation}{
+%   abbrev = true ,
+% }
+
+%%% Additional theorem-like environments
+\newtheorem{assumption}{Assumption}
+\Crefname{assumption}{Assumption}{Assumptions}
+\newtheorem{construction}{Construction}
+\Crefname{construction}{Construction}{Constructions}
+
+%%% Cryptocode
+%%% TODO Extract this into a "mycryptocode.sty" package
+\WarningFilter*[theH]{latex}{Command `\string\the}%
+\ActivateWarningFilters[theH]
+\usepackage[
+  lambda,
+  advantage,
+  operators,
+  adversary,
+  landau,
+  probability,
+  sets,
+  % notions,
+  % logic,
+  % ff,
+  % mm,
+  % primitives,
+  % oracles,
+  events,
+  % complexity,
+  asymptotics,
+  keys,
+]{cryptocode}
+\DeactivateWarningFilters[theH]
+
+% Better version of \pcfixcleveref
+% (see https://github.com/arnomi/cryptocode/pull/15)
+\IfPackageLoadedTF{cleveref}{
+  \AtBeginDocument{
+    \pcfixhyperref%
+    \makeatletter
+    \crefalias{@pclinenumber}{line}%
+    \makeatother
+    % TODO Consider further improvements for the interaction between
+    % crytocode and cleveref, e.g., referencing games, see: https://tex.stackexchange.com/questions/623163/cryptocode-cref-should-link-to-a-game-and-write-its-name/623196#623196
+  }
+}{}
+
+% Fix \gamechange to expect math mode contents
+% (see https://github.com/arnomi/cryptocode/pull/21 )
+\renewcommand{\gamechange}[2][gamechangecolor]{%
+  {\setlength{\fboxsep}{0pt}\ifmmode%
+      \mathchoice{%
+        \colorbox{#1}{$\displaystyle#2$}%
+      }{%
+        \colorbox{#1}{$#2$}%
+      }{%
+        \colorbox{#1}{$\scriptstyle#2$}%
+      }{%
+        \colorbox{#1}{$\scriptscriptstyle#2$}%
+      }%
+    \else{#2}\fi}%
+}
+
+% Improved paired delimiters
+% Usage: \abs{x} for auto-scaling, or \abs[\bigg] for manual scaling
+\makeatletter
+\RenewDocumentCommand\floor{om}{\IfValueTF{#1}{\pc@floor[#1]{#2}}{\pc@floor*{#2}}}
+\RenewDocumentCommand\ceil{om}{\IfValueTF{#1}{\pc@ceil[#1]{#2}}{\pc@ceil*{#2}}}
+\RenewDocumentCommand\Angle{om}{\IfValueTF{#1}{\pc@Angle[#1]{#2}}{\pc@Angle*{#2}}}
+\RenewDocumentCommand\abs{om}{\IfValueTF{#1}{\pc@abs[#1]{#2}}{\pc@abs*{#2}}}
+\RenewDocumentCommand\norm{om}{\IfValueTF{#1}{\pc@norm[#1]{#2}}{\pc@norm*{#2}}}
+\DeclarePairedDelimiter{\pc@bracks}{\lbrack}{\rbrack}
+\NewDocumentCommand\bracks{om}{\IfValueTF{#1}{\pc@bracks[#1]{#2}}{\pc@bracks*{#2}}}
+\NewDocumentCommand\pr{om}{\Pr\bracks[#1]{#2}}
+\makeatother
+
+%%% Append "." to subsubsection and paragraph headings
+\let\llncssubsubsection\subsubsection
+\renewcommand{\subsubsection}[1]{\llncssubsubsection{#1.}}
+\let\llncsparagraph\paragraph
+\renewcommand{\paragraph}[1]{\llncsparagraph{#1.}}
