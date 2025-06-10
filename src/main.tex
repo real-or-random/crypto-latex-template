@@ -53,6 +53,7 @@
 
 %%% Misc early packages
 \usepackage[save]{silence}
+\usepackage{gobble-user}
 
 \usepackage[T1]{fontenc}
 \usepackage{lmodern}
@@ -159,13 +160,9 @@
     }{}
 }
 % In, e.g., "CRYPTO 2019, Part II", remove ", Part II"
-\DeclareSourcemap{
-  \maps[datatype=bibtex]{
-    \map{
-      \step[fieldsource=booktitle, match=\regexp{(.*),\x20Part~I+}, replace={$1}, final]
-    }
-  }
-}
+\DeclareSourcemap{\maps[datatype=bibtex]{
+    \map{\step[fieldsource=booktitle, match=\regexp{(.*),\x20Part~I+}, replace={$1}, final]}}}
+\gobble{$}  % Matching $ to make syntax highlighting happy
 
 %%% hyperref
 \unless\ifcameraready
