@@ -42,12 +42,26 @@
   a4paper,
   orivec,oribibl]{llncsstandalone}
 
-%% Uncomment to set margins manually (see the geometry package).
+%%% Uncomment to set margins manually (see the geometry package).
 % \geometry{textwidth=150mm, textheight=237mm, vmarginratio=5:7, footskip=14mm}
 
+%%% Append "." to subsubsection and paragraph headings
+\let\llncssubsubsection\subsubsection
+\renewcommand{\subsubsection}[1]{\llncssubsubsection{#1.}}
+\let\llncsparagraph\paragraph
+\renewcommand{\paragraph}[1]{\llncsparagraph{#1.}}
+
+%%% Misc early packages
 \usepackage[save]{silence}
+
 \usepackage[T1]{fontenc}
 \usepackage{lmodern}
+\usepackage[english]{babel}
+\usepackage{csquotes}
+\usepackage[babel,final]{microtype}
+
+\usepackage{xpunctuate}
+\usepackage{pifont}  % Dingbats
 
 %%% Space savings.
 %%% The evil stuff. Uncomment manually.
@@ -57,15 +71,6 @@
   %% Always use inline style for \sum, \prod, ...
   % \PassOptionsToPackage{nosumlimits}{amsmath}
 \fi
-
-%%% Misc early packages
-\usepackage[english]{babel}
-\usepackage{csquotes}
-\usepackage[babel,final]{microtype}
-\usepackage{xpunctuate}
-\usepackage{pifont}  % Dingbats
-\usepackage{tcolorbox}
-\tcbset{colback=white, size=title, boxsep=2mm}
 
 %%% Colors
 \usepackage[dvipsnames,svgnames,x11names]{xcolor}
@@ -91,12 +96,12 @@
       \todo[color=#3, inline, caption={}, ##2]{\textbf{#2:} ##3}%
     }{(Note by #2: ##3)}%
   }}
-\ifnotes
-  \usepackage{todonotes}
-\else
-  \usepackage[disable]{todonotes}
+\unless\ifnotes
+  \PassOptionsToPackage{disable}{todonotes}
 \fi
+\usepackage{todonotes}
 
+%%% Labels
 \iflabels
   \usepackage[notref,notcite,color]{showkeys}
 \fi
@@ -111,17 +116,11 @@
   minnames=3,
 }{biblatex}
 \ifcameraready
-  \usepackage[
-  style=biblatex-lncs/lncs,
-  ]{biblatex}
+  \usepackage[style=biblatex-lncs/lncs]{biblatex}
   % Disable shorthands, see https://github.com/plk/biblatex/issues/1427
   \DeclareFieldInputHandler{shorthand}{\def\NewValue{}}
 \else
-  \usepackage[
-  style=alphabetic,
-  maxbibnames=15,
-  minbibnames=15,
-  ]{biblatex}
+  \usepackage[style=alphabetic, maxbibnames=15, minbibnames=15]{biblatex}
 \fi
 \usepackage{biblatex-iacr-eprint}  % local package
 
@@ -141,11 +140,9 @@
 % automatically and transparently if you use latexmk.
 \addbibresource{abbrev3.bib}
 \addbibresource{crypto.bib}
-
-%%% Local bibliographies
+% Local bibliographies
 \addbibresource{add.bib}
-
-%%% Save space in references
+% Save space in references
 \AtEveryBibitem{
   % See Section 2.2.2 in the BibLaTeX manual for the field types
   \unless\iffull
@@ -189,7 +186,6 @@
 
 %%% Cross-references
 \usepackage[capitalize, nameinlink]{cleveref}
-
 % Use en-dash instead of " to~" for ranges.
 \newcommand{\crefrangeconjunction}{--}
 % Omit the word "equation" except at the start of a sentence.
@@ -257,11 +253,9 @@
 % Semicolon
 \NewDocumentCommand\pcsc{}{\,;~}
 
-%%% Append "." to subsubsection and paragraph headings
-\let\llncssubsubsection\subsubsection
-\renewcommand{\subsubsection}[1]{\llncssubsubsection{#1.}}
-\let\llncsparagraph\paragraph
-\renewcommand{\paragraph}[1]{\llncsparagraph{#1.}}
+%%% Boxes
+\usepackage{tcolorbox}
+\tcbset{colback=white, size=title, boxsep=2mm}
 
 
 \input{macros.tex}
