@@ -256,6 +256,21 @@
   asymptotics,
   keys,
 ]{cryptocode-tweaked}  % local package
+% Multi-letter variables, e.g., "ctr"
+\NewDocumentCommand\pcvarstyle{m}{\ensuremath{\mathit{#1}}}
+% Make keys and polynomials look like other identifiers.
+% (No idea why cryptocode treats them specially.)
+\RenewDocumentCommand\pckeystyle{m}{\ensuremath{\var{#1}}}
+\RenewDocumentCommand\pcpolynomialstyle{m}{\ensuremath{\var{#1}}}
+% Oracles
+\NewDocumentCommand\mathsc{m}{{\normalfont\textsc{#1}}}
+\RenewDocumentCommand\pcoraclestyle{m}{\ensuremath{\mathsc{#1}}}
+% We use := as assignment operator
+\NewDocumentCommand\defeq{}{\coloneq}
+\NewCommandCopy\origgets\gets
+\RenewCommandCopy\gets\defeq
+% Semicolon
+\NewDocumentCommand\pcsc{}{\,;~}
 
 %%% Append "." to subsubsection and paragraph headings
 \let\llncssubsubsection\subsubsection

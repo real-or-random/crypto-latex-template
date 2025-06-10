@@ -7,29 +7,13 @@
 %%% See https://latex3.github.io/help/documentation/usrguide.pdf for
 %%% background.
 
-%%% We use := as assignment operator
-\NewDocumentCommand\defeq{}{\coloneq}
-\NewCommandCopy\origgets\gets
-\RenewCommandCopy\gets\defeq
-
-%%% cryptocode tweaks
-% Multi-letter variables, e.g., "ctr"
-\NewDocumentCommand\var{m}{\ensuremath{\mathit{#1}}}
-% Make keys and polynomials look like other identifiers.
-% (No idea why cryptocode treats them specially.)
-\RenewDocumentCommand\pckeystyle{m}{\ensuremath{\var{#1}}}
-\RenewDocumentCommand\pcpolynomialstyle{m}{\ensuremath{\var{#1}}}
-% Shorthand for \pcalgostyle
+%%% cryptocode
 \NewDocumentCommand\algo{}{\pcalgostyle}
-% Oracles
-\NewDocumentCommand{\mathsc}{m}{{\normalfont\textsc{#1}}}
-\RenewDocumentCommand\pcoraclestyle{m}{\ensuremath{\mathsc{#1}}}
-\NewDocumentCommand\oracle{m}{\pcoraclestyle{#1}}
+\NewDocumentCommand\var{}{\pcvarstyle}
+\NewDocumentCommand\oracle{}{\pcoraclestyle}
 % Games
 \newcommandx{\game}[4][3=\adv,4=(\secpar)]{{\operatorname{#1}_{#2}^{#3}#4}}
 \newcommand{\Game}{\algo{Game}}
-% Misc
-\newcommand{\pcsc}{\,;~}
 
 %%% Algorithms and named schemes
 %%%
