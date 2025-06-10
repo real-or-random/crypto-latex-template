@@ -10,14 +10,14 @@
 
 % Better version of \pcfixcleveref
 % (see https://github.com/arnomi/cryptocode/pull/15)
-\IfPackageLoadedTF{cleveref}{
-  \AtBeginDocument{
+\AtBeginDocument{
+  \IfPackageLoadedTF{cleveref}{
     \pcfixhyperref%
     \crefalias{@pclinenumber}{line}%
     % TODO Consider further improvements for the interaction between
     % crytocode and cleveref, e.g., referencing games, see: https://tex.stackexchange.com/questions/623163/cryptocode-cref-should-link-to-a-game-and-write-its-name/623196#623196
-  }
-}{}
+  }{}
+}
 
 % Fix \gamechange to expect math mode contents
 % (see https://github.com/arnomi/cryptocode/pull/21 )
