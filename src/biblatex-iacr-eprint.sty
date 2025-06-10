@@ -1,0 +1,41 @@
+\NeedsTeXFormat{LaTeX2e}
+\ProvidesPackage{biblatex-iacr-eprint}[2025-06-10 v0.1 Support for IACR ePrints in BibLaTeX]
+
+\RequirePackage{biblatex}[2018-02-20]  % v3.11, support for multiple \DeclareSourcemap
+
+%%% Printing ePrint identifiers
+\newcommand\iacreprintname{Cryptology ePrint Archive}
+%% Shorter alternative:
+% \newcommand\iacreprintname{IACR ePrint}
+% TODO Consider just "\textsc{IACR}" (like for URL and DOI).
+\DeclareFieldFormat{eprint:iacr}{%
+  \iacreprintname\addcolon\space
+  \ifhyperref
+    {\href{https://eprint.iacr.org/#1}{%
+       \nolinkurl{#1}%
+       \iffieldundef{eprintclass}
+         {}
+         {\addspace\texttt{\mkbibbrackets{\thefield{eprintclass}}}}}}
+    {\nolinkurl{#1}%
+     \iffieldundef{eprintclass}
+       {}
+       {\addspace\texttt{\mkbibbrackets{\thefield{eprintclass}}}}}}
+
+%%% Convert "howpublished" and "url" fields referring to IACR eprints
+%%% (e.g., as in crypto.bib) to proper BibLaTeX "eprint" fields
+\DeclareSourcemap{
+  \maps[datatype=bibtex]{
+    \map{
+      \step[fieldsource=howpublished, match=\regexp{\ACryptology\x20ePrint\x20Archive,\x20Report\x20(\d+)/(\d+)\z}, final]
+      \step[fieldset=eprint, fieldvalue={$1/$2}]
+      \step[fieldset=eprinttype, fieldvalue={iacr}]
+      \step[fieldset=howpublished, null]
+    }
+    \map{
+      \step[fieldsource=url, match=\regexp{https://eprint\.iacr\.org/(\d+)/(\d+)}, final]
+      \step[fieldset=eprinttype, fieldvalue={iacr}]
+      \step[fieldset=eprint, fieldvalue={$1/$2}]
+      \step[fieldset=url, null]
+    }
+  }
+}

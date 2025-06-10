@@ -123,6 +123,7 @@
   minbibnames=15,
   ]{biblatex}
 \fi
+\usepackage{biblatex-iacr-eprint}  % local package
 
 %%% cryptobib
 % The files are supposed to be found in TEXMFHOME, see README.md. We'd
@@ -144,47 +145,6 @@
 %%% Local bibliographies
 \addbibresource{add.bib}
 
-%%% Source maps (there must be only a single \DeclareSourcemap)
-\DeclareSourcemap{
-  \maps[datatype=bibtex]{
-    % Use proper "eprint" fields for IACR Cryptology Archive
-    \map{
-      \step[fieldsource=howpublished, match=\regexp{\ACryptology\x20ePrint\x20Archive,\x20Report\x20(\d+)/(\d+)\z}, final]
-      \step[fieldset=eprint, fieldvalue={$1/$2}]
-      \step[fieldset=eprinttype, fieldvalue={iacr}]
-      \step[fieldset=howpublished, null]
-    }
-    \map{
-      \step[fieldsource=url, match=\regexp{https://eprint\.iacr\.org/(\d+)/(\d+)}, final]
-      \step[fieldset=eprinttype, fieldvalue={iacr}]
-      \step[fieldset=eprint, fieldvalue={$1/$2}]
-      \step[fieldset=url, null]
-    }
-    % In, e.g., "CRYPTO 2019, Part II", remove ", Part II"
-    \map{
-      \step[fieldsource=booktitle, match=\regexp{(.*),\x20Part~I+}, replace={$1}, final]
-    }
-  }
-}
-
-%%% Printing ePrint identifiers
-\newcommand\iacreprintname{Cryptology ePrint Archive}
-%% Shorter alternative:
-% \newcommand\iacreprintname{IACR ePrint}
-% TODO Consider just "\textsc{IACR}" (like for URL and DOI).
-\DeclareFieldFormat{eprint:iacr}{%
-  \iacreprintname\addcolon\space
-  \ifhyperref
-    {\href{https://eprint.iacr.org/#1}{%
-       \nolinkurl{#1}%
-       \iffieldundef{eprintclass}
-         {}
-         {\addspace\texttt{\mkbibbrackets{\thefield{eprintclass}}}}}}
-    {\nolinkurl{#1}%
-     \iffieldundef{eprintclass}
-       {}
-       {\addspace\texttt{\mkbibbrackets{\thefield{eprintclass}}}}}}
-
 %%% Save space in references
 \AtEveryBibitem{
   % See Section 2.2.2 in the BibLaTeX manual for the field types
@@ -200,6 +160,14 @@
       \clearlist{publisher}
       \clearfield{series}
     }{}
+}
+% In, e.g., "CRYPTO 2019, Part II", remove ", Part II"
+\DeclareSourcemap{
+  \maps[datatype=bibtex]{
+    \map{
+      \step[fieldsource=booktitle, match=\regexp{(.*),\x20Part~I+}, replace={$1}, final]
+    }
+  }
 }
 
 %%% hyperref
