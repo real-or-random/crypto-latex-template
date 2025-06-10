@@ -1,0 +1,47 @@
+\NeedsTeXFormat{LaTeX2e}
+\ProvidesPackage{cryptocode-tweaked}[2025-06-10 v0.1 Load cryptocode with tweaks and fixes]
+
+\WarningFilter*[cryptocode-theH]{latex}{Command `\string\the}%
+\ActivateWarningFilters[cryptocode-theH]
+\RequirePackageWithOptions{cryptocode}
+\DeactivateWarningFilters[cryptocode-theH]
+
+\RequirePackage{mathtools}[2004-06-25]  % \DeclarePairedDelimiter
+
+% Better version of \pcfixcleveref
+% (see https://github.com/arnomi/cryptocode/pull/15)
+\IfPackageLoadedTF{cleveref}{
+  \AtBeginDocument{
+    \pcfixhyperref%
+    \crefalias{@pclinenumber}{line}%
+    % TODO Consider further improvements for the interaction between
+    % crytocode and cleveref, e.g., referencing games, see: https://tex.stackexchange.com/questions/623163/cryptocode-cref-should-link-to-a-game-and-write-its-name/623196#623196
+  }
+}{}
+
+% Fix \gamechange to expect math mode contents
+% (see https://github.com/arnomi/cryptocode/pull/21 )
+\renewcommand{\gamechange}[2][gamechangecolor]{%
+  {\setlength{\fboxsep}{0pt}\ifmmode%
+      \mathchoice{%
+        \colorbox{#1}{$\displaystyle#2$}%
+      }{%
+        \colorbox{#1}{$#2$}%
+      }{%
+        \colorbox{#1}{$\scriptstyle#2$}%
+      }{%
+        \colorbox{#1}{$\scriptscriptstyle#2$}%
+      }%
+    \else{#2}\fi}%
+}
+
+% Improved paired delimiters
+% Usage: \abs{x} for auto-scaling, or \abs[\bigg] for manual scaling
+\RenewDocumentCommand\floor{om}{\IfValueTF{#1}{\pc@floor[#1]{#2}}{\pc@floor*{#2}}}
+\RenewDocumentCommand\ceil{om}{\IfValueTF{#1}{\pc@ceil[#1]{#2}}{\pc@ceil*{#2}}}
+\RenewDocumentCommand\Angle{om}{\IfValueTF{#1}{\pc@Angle[#1]{#2}}{\pc@Angle*{#2}}}
+\RenewDocumentCommand\abs{om}{\IfValueTF{#1}{\pc@abs[#1]{#2}}{\pc@abs*{#2}}}
+\RenewDocumentCommand\norm{om}{\IfValueTF{#1}{\pc@norm[#1]{#2}}{\pc@norm*{#2}}}
+\DeclarePairedDelimiter{\pc@bracks}{\lbrack}{\rbrack}
+\NewDocumentCommand\bracks{om}{\IfValueTF{#1}{\pc@bracks[#1]{#2}}{\pc@bracks*{#2}}}
+\NewDocumentCommand\pr{om}{\Pr\bracks[#1]{#2}}
