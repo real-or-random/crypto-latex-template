@@ -135,18 +135,18 @@ See the source code of \cref{fig:scheme}.
             \pcreturn \pcfalse \label{line:false}
           }
           \pcvspace
-          \procedure[headlinesep=1pt]{$\game{\Game~\algo{Coll}}{\algo{H}}$}{%
+          \procedure[headlinesep=1pt]{$\gametitle{\game{Coll}}{\algo{H}}$}{%
             \mathellipsis
           }
         \end{pcvstack}
         \pchspace[1em]
         \begin{pcvstack}
-          \procedure{$\algo{Foo}(\secpar)$}{%
+          \procedure{$\gametitle*{\game{EUF\mhyphen{}CMA}}{\Sigma}[\bdv]$}{%
             x \gets 5\\
             \gamechange{\pcassert \pcfalse}
           }
           \pcvspace
-          \procedure[headlinesep=1pt]{$\oracle{Bar}(\sk, \pk)$}{%
+          \procedure[headlinesep=1pt]{$\oracle{Oracle}(\sk, \pk)$}{%
             y \sample \ZZ_p
           }
         \end{pcvstack}

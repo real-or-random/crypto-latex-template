@@ -10,14 +10,22 @@
 %%% \NewDocumentCommand in braces to make texlab recognize the
 %%% definition, see https://github.com/latex-lsp/texlab/issues/1409 .
 
+%%% Math hyphen (for the hyphens in EUF-CMA and the like)
+\mathchardef\mhyphen="2D
 
-%%% cryptocode
+%%% Shortcuts for styles
 \NewDocumentCommand{\algo}{}{\pcalgostyle}
 \NewDocumentCommand{\var}{}{\pcvarstyle}
 \NewDocumentCommand{\oracle}{}{\pcoraclestyle}
-% Games
-\newcommandx{\game}[4][3=\adv,4=(\secpar)]{{\operatorname{#1}_{#2}^{#3}#4}}
-\NewDocumentCommand{\Game}{\algo{Game}}
+\NewDocumentCommand{\game}{}{\pcgameprocedurestyle}
+
+%%% Games
+% \gametitle{\game{Coll}}{\algo{H}} produces "Coll_H^𝒜(λ)".
+%   The optional arguments change superscript and the arguments
+%   and \gametitle* is a shortcut for omitting the arguments.
+\NewDocumentCommand{\gametitle}{s m m O{\adv} O{\gameprocedurearg}}{\ensuremath{{#2}_{#3}^{#4}{\IfBooleanF{#1}{#5}}}}
+% For prefixing the main game in a figure with the text "Game ".
+\NewDocumentCommand{\gameprefix}{}{\ensuremath{\textnormal{Game~}}}
 
 %%% Algorithms and named schemes
 %%%
@@ -34,7 +42,7 @@
 % \NewDocumentCommand{\verify}{}{\algo{Verify}}
 
 % \NewDocumentCommand{\musigtwo}{}{\algo{MuSig2}}
-% \NewDocumentCommand{\musigtwoias}{}{\algo{MuSig2\textnormal{-}IAS}}
+% \NewDocumentCommand{\musigtwoias}{}{\algo{MuSig2\mhyphen{}IAS}}
 
 %% Game Oracles
 % \NewDocumentCommand{\dlo}{}{\oracle{DL}}
