@@ -89,7 +89,7 @@
 \usepackage{mathtools}  % for \coloneq and \DeclarePairedDelimiter
 
 %%% Notes and Todos
-\NewDocumentCommand\newuser{m m m}{%
+\NewDocumentCommand{\newuser}{m m m}{%
   \expandafter\NewDocumentCommand\csname #1note\endcsname{s O{} +m}{
     % Ensure that todos after paragraph headings are properly displayed
     \quitvmode%
@@ -235,20 +235,20 @@
   keys,
 ]{cryptocode-tweaked}  % local package
 % Multi-letter variables, e.g., "ctr"
-\NewDocumentCommand\pcvarstyle{m}{\ensuremath{\mathit{#1}}}
+\NewDocumentCommand{\pcvarstyle}{m}{\ensuremath{\mathit{#1}}}
 % Make keys and polynomials look like other identifiers.
 % (No idea why cryptocode treats them specially.)
-\RenewDocumentCommand\pckeystyle{m}{\ensuremath{\var{#1}}}
-\RenewDocumentCommand\pcpolynomialstyle{m}{\ensuremath{\var{#1}}}
+\RenewDocumentCommand{\pckeystyle}{m}{\ensuremath{\var{#1}}}
+\RenewDocumentCommand{\pcpolynomialstyle}{m}{\ensuremath{\var{#1}}}
 % Oracles
-\NewDocumentCommand\mathsc{m}{{\normalfont\textsc{#1}}}
-\RenewDocumentCommand\pcoraclestyle{m}{\ensuremath{\mathsc{#1}}}
+\NewDocumentCommand{\mathsc}{m}{{\normalfont\textsc{#1}}}
+\RenewDocumentCommand{\pcoraclestyle}{m}{\ensuremath{\mathsc{#1}}}
 % We use := as assignment operator
-\NewDocumentCommand\defeq{}{\coloneq}
-\NewCommandCopy\origgets\gets
-\RenewCommandCopy\gets\defeq
+\NewDocumentCommand{\defeq}{}{\coloneq}
+\NewCommandCopy{\origgets}{\gets}
+\RenewCommandCopy{\gets}{\defeq}
 % Semicolon
-\NewDocumentCommand\pcsc{}{\,;~}
+\NewDocumentCommand{\pcsc}{}{\,;~}
 
 %%% Boxes
 \usepackage{tcolorbox}
@@ -277,8 +277,8 @@
 %%% Authors
 \unless\ifanonymous
   \unless\ifcameraready
-    \RenewDocumentCommand\email{m}{\href{mailto:#1}{\texttt{\textcolor{black}{#1}}}}
-    \RenewDocumentCommand\orcidID{m}{}
+    \RenewDocumentCommand{\email}{m}{\href{mailto:#1}{\texttt{\textcolor{black}{#1}}}}
+    \RenewDocumentCommand{\orcidID}{m}{}
   \fi
   \author{\texorpdfstring{%
       Alice Author\inst{1}\orcidID{0000-0000-0000-0000}
