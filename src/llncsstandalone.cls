@@ -29,16 +29,19 @@
 % global. If we want to use it for a standalone paper, we'll need some
 % tweaks.
 
-% Remove title and authors from ToC (https://tex.stackexchange.com/a/350689).
-% This also takes care of PDF bookmarks (https://tex.stackexchange.com/a/47410).
-\xpatchcmd{\maketitle}{%
-  \addtocontents{toc}{\noexpand\protect\noexpand\authcount{\the\c@auco}}%
-  \addcontentsline{toc}{author}{\toc@uthor}%
-}{}{}{\llncsstandalone@error}
-\xpatchcmd{\maketitle}{%
-  \if!\the\toctitle!\addcontentsline{toc}{title}{\@title}\else
-    \addcontentsline{toc}{title}{\the\toctitle}\fi
-}{}{}{\llncsstandalone@error}
+% Remove title and authors from ToC (and PDF bookmarks)
+% Loosely based on https://tex.stackexchange.com/a/47410 by egreg.
+\let\llncsmaketitle\maketitle
+\renewcommand{\maketitle}{%
+  \begingroup%
+     % Overriding \addtocontents appears to change the spacing below the
+     % author block for some reason and appears to be unnecessary, so
+     % let's not touch it.
+     %\let\addtocontents\@gobbletwo%
+     \let\addcontentsline\@gobblethree%
+     \llncsmaketitle%
+  \endgroup%
+}
 
 % Make ToC a section* instead of a chapter*
 \xpatchcmd{\tableofcontents}{\chapter*}{\section*}{}{\llncsstandalone@error}
