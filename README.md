@@ -1,3 +1,8 @@
+<!--
+  Written by Tim Ruffing <me@real-or-random.org> and contributors
+  SPDX-License-Identifier: CC0-1.0 or MIT-0
+-->
+
 # A Modern LaTeX Template for Cryptography
 
 ## Getting Started

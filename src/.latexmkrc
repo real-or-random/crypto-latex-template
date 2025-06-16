@@ -1,3 +1,6 @@
+# Written by Tim Ruffing <me@real-or-random.org> and contributors
+# SPDX-License-Identifier: CC0-1.0 or MIT-0
+
 # We keep this file in the src directory to stay compatible with editors
 # etc. which run latexmk from the src directory.
 

@@ -1,0 +1,12 @@
+Written by Tim Ruffing <me@real-or-random.org> and contributors
+
+Some of the files in this repository contain explicit license information, e.g.,
+a note that a file is made available under the LaTeX Project Public License
+(LPPL). Please check the file contents for further information.
+
+The files which do not contain explicit license information are made available
+under any of the following options, at your choice:
+ - CC0 Public Domain Dedication (CC0-1.0),
+   see <https://creativecommons.org/publicdomain/zero/1.0/>
+ - MIT No Attribution License (MIT-0),
+   see <https://opensource.org/license/mit-0>

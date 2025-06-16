@@ -1,4 +1,8 @@
 #!/usr/bin/env bash
+#
+# Written by Tim Ruffing <me@real-or-random.org> and contributors
+# SPDX-License-Identifier: CC0-1.0 or MIT-0
+
 set -e
 
 # Settings:
