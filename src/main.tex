@@ -66,7 +66,7 @@
 \usepackage[babel,final]{microtype}
 
 \usepackage{xpunctuate}
-\usepackage{pifont}  % Dingbats
+\usepackage{pifont}  % Dingbats (\ding)
 
 %%% Space savings.
 %%% The evil stuff. Uncomment manually.
@@ -161,7 +161,7 @@
       \clearfield{volume}
       \clearlist{publisher}
       \clearfield{series}
-    }{}
+  }{}
 }
 % In, e.g., "CRYPTO 2019, Part II", remove ", Part II"
 \DeclareSourcemap{\maps[datatype=bibtex]{
@@ -196,17 +196,16 @@
 % the en dash will wrongly be in italic when the surrounding text is.
 % So we'll need to provide full low-level definitions for range formats.
 \crefrangeformat{equation}{\textup{#3(#1)#4--#5(#2)#6}}
-\crefrangemultiformat{equation}{\textup{#3(#1)#4--#5(#2)#6}}%
-  { and \textup{#3(#1)#4--#5(#2)#6}}%
-  {, \textup{#3(#1)#4--#5(#2)#6}}%
+\crefrangemultiformat{equation}{\textup{#3(#1)#4--#5(#2)#6}}
+  { and \textup{#3(#1)#4--#5(#2)#6}}
+  {, \textup{#3(#1)#4--#5(#2)#6}}
   {, and \textup{#3(#1)#4--#5(#2)#6}}
 \Crefrangeformat{equation}{Equations~\textup{#3(#1)#4--#5(#2)#6}}
-\Crefrangemultiformat{equation}{Equations~\textup{#3(#1)#4--#5(#2)#6}}%
-  { and \textup{#3(#1)#4--#5(#2)#6}}%
-  {, \textup{#3(#1)#4--#5(#2)#6}}%
-  {, and \textup{#3(#1)#4--#5(#2)#6}}%
+\Crefrangemultiformat{equation}{Equations~\textup{#3(#1)#4--#5(#2)#6}}
+  { and \textup{#3(#1)#4--#5(#2)#6}}
+  {, \textup{#3(#1)#4--#5(#2)#6}}
+  {, and \textup{#3(#1)#4--#5(#2)#6}}
 % Force "line" and "item" to be lowercase.
-% TODO Should we also just omit "item"?
 \crefname{line}{line}{lines}
 \Crefname{line}{Line}{Lines}
 \crefname{enumi}{item}{items}
@@ -218,7 +217,7 @@
 \newtheorem{construction}{Construction}
 \Crefname{construction}{Construction}{Constructions}
 
-%%% Cryptocode
+%%% cryptocode
 \usepackage[
   lambda,
   advantage,
