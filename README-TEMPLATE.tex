@@ -80,6 +80,7 @@ All of this should happen automatically and transparently if you use \texttt{lat
 
 You can use \verb|\textcite| to typeset author names automatically, \eg, \textcite{CCS:BelNev06,EPRINT:NicRufSeu20}.
 
+\paragraph{Shorthands}
 It's a good idea to define the \texttt{shorthand} field in the bib file for BIPs, RFCs and similar documents, \eg, \verb|shorthand = {BIP340}|. By the way, have you heard about xonly keys~\cite{add:bip-schnorr}?
 
 
@@ -116,7 +117,8 @@ It's a good idea to define the \texttt{shorthand} field in the bib file for BIPs
 Thus, they can be used in moving arguments such as section headings.
 If not, try to put a \verb|\protect| in front of them.
 
-A drawback of robustness is that PDF metadata such as bookmarks created from section headings,
+\paragraph{How to Fix PDF Metadata?}
+PDF metadata such as bookmarks created from section headings,
 will contain the \LaTeX{} source code instead of the expanded macro.
 You probably want to use \verb|\texorpdfstring{<actual LaTeX code>}{<plaintext for PDF bookmark>}| to fix that.
 

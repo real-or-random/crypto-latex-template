@@ -46,10 +46,14 @@
 % \geometry{textwidth=150mm, textheight=237mm, vmarginratio=5:7, footskip=14mm}
 
 %%% Append "." to subsubsection and paragraph headings
+%%% (unless the heading ends with ".", "?", or "!" already).
+\usepackage{xstring}
+\NewDocumentCommand{\IfHasEndOfSentenceMark}{m m m}
+  {\IfEndWith*{#1}{.}{#2}{\IfEndWith*{#1}{?}{#2}{\IfEndWith*{#1}{!}{#2}{#3}}}}
 \let\llncssubsubsection\subsubsection
-\renewcommand{\subsubsection}[1]{\llncssubsubsection{#1.}}
+\renewcommand{\subsubsection}[1]{\llncssubsubsection{#1\IfHasEndOfSentenceMark{#1}{}{.}}}
 \let\llncsparagraph\paragraph
-\renewcommand{\paragraph}[1]{\llncsparagraph{#1.}}
+\renewcommand{\paragraph}[1]{\llncsparagraph{#1\IfHasEndOfSentenceMark{#1}{}{.}}}
 
 %%% Misc early packages
 \usepackage[save]{silence}
