@@ -101,3 +101,14 @@ Also, add the following to your configuration file:
       '(("tex" . "kpsewhich -format=.tex %f")
         ("bib" . "kpsewhich -format=.bib %f")))
 ```
+
+## Acknowledgements and Related Projects
+
+ - [CryptoBib](https://cryptobib.di.ens.fr/):
+   BibTeX database containing papers related to cryptography
+   (used in this template)
+ - [extract_from_bibliography](https://github.com/thomwiggers/extract_from_bibliography):
+   Extract bib entries from big bibliographies
+   (used in this template)
+ - [citerus](https://github.com/matteocam/citerus):
+   A command-line tool to search CryptoBib
