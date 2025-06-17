@@ -5,6 +5,28 @@
 
 # A Modern LaTeX Template for Cryptography
 
+## A Word of Caution
+
+This is my personal LaTeX template, including a handful of custom
+packages and classes. I make this code available because I think that it
+may help others. The code is commented but it lacks a full and proper
+documentation, and while I may fix issues, I won't have the time to
+provide user support.
+
+I highly recommend paying attention to these wise words from [Ulrike
+Fischer](https://tex.stackexchange.com/a/391022/61094):
+> ### So if you want to use a (rather complex) template or a local custom class:
+>
+> Imagine that you get a fatal error and nothing compiles, or that someone tells you to change the header or the bibliography style, or that you realize in the middle of your work that something in the template doesn't fit your needs. Consider if and how you can handle such a problem.
+> If the answer is one of these:
+>
+>   - I know enough about LaTeX to debug or adapt the template.
+>   - I have a friend with enough knowledge who will help me.
+>   - I have access to some professional support that will help me.
+>   - I understand enough of the template and of LaTeX to be able to build a minimal example and ask on [tex.SX](https://tex.stackexchange.com/) or some other help site.
+>
+> Then go along and use the template if you like it. If you are relying on external support for problems perhaps ask them first if they recommend the template.
+
 ## Getting Started
 
 ### Create a New Repository From This Template
