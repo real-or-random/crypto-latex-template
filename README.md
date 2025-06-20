@@ -102,7 +102,9 @@ git commit -m "Remove COPYING.txt"
 
 ## Editor Configuration
 
-### Emacs (AUCTeX and RefTeX)
+### Emacs
+
+#### AUCTeX
 
 Create a file `src/.dir-locals.el` with contents:
 
@@ -114,14 +116,13 @@ Create a file `src/.dir-locals.el` with contents:
          (TeX-master . "main"))))
 ```
 
+#### RefTeX / Citar
 
-Also, add the following to your configuration file:
+Also, add the following to your configuration file
+(also for Citar, which uses RefTeX as a dependency):
 
 ```emacs-lisp
 (setq reftex-use-external-file-finders t)
-(setq reftex-external-file-finders
-      '(("tex" . "kpsewhich -format=.tex %f")
-        ("bib" . "kpsewhich -format=.bib %f")))
 ```
 
 ## Acknowledgements and Related Projects
