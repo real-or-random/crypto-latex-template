@@ -169,8 +169,7 @@
 }
 % In, e.g., "CRYPTO 2019, Part II", remove ", Part II"
 \DeclareSourcemap{\maps[datatype=bibtex]{
-    \map{\step[fieldsource=booktitle, match=\regexp{(.*),\x20Part~I+}, replace={$1}, final]}}}
-\gobble{$}  % Matching $ to make syntax highlighting happy
+    \map{\step[fieldsource=booktitle, match=\regexp{(.*),\x20Part[~\x20][^\x20]+$}, replace={$1}, final]}}}
 
 %%% hyperref
 \unless\ifcameraready
