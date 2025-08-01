@@ -130,6 +130,31 @@
   \DeclareFieldInputHandler{shorthand}{\def\NewValue{}}
 \else
   \usepackage[style=alphabetic, maxbibnames=15, minbibnames=15]{biblatex}
+  %% Print work titles in italics, book titles upright.
+  % This makes the bibliography appear more uniform, in particular if
+  % there are many inproceedings entries. The convention that titles of
+  % full works are in italics and parts of works are in quotes is no
+  % longer useful in a world in which one doesn't need to fetch the book
+  % from the library.
+  \DeclareFieldFormat
+    [article,inbook,incollection,inproceedings,patent,thesis,unpublished]{title}
+    {\mkbibemph{#1\isdot}}
+  \DeclareFieldFormat
+    [article,inbook,incollection,inproceedings,patent,thesis,unpublished]{citetitle}
+    {\mkbibemph{#1\isdot}}
+  % Hack to make conference names a bit easier to recognize: Small caps
+  % mode adds a bit of letter spacing to conference acronyms without
+  % looking terrible for long book names or journal names.
+  \DeclareFieldFormat{booktitle}{\textsc{#1}}
+  \DeclareFieldFormat{journaltitle}{\textsc{#1\isdot}}
+  \DeclareFieldFormat{issuetitle}{\textsc{#1}}
+  \DeclareFieldFormat{maintitle}{\textsc{#1}}
+
+  % % Alternative: Quotation marks instead of italics for paper titles.
+  % % In the bibliography:
+  % \DeclareFieldFormat{title}{\mkbibquote{#1}}
+  % % For \citetitle if desired:
+  % \DeclareFieldFormat{citetitle}{\mkbibquote{#1}}
 \fi
 \usepackage{biblatex-iacr-eprint}  % local package
 
