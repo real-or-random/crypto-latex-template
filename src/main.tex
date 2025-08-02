@@ -192,9 +192,22 @@
       \clearfield{series}
   }{}
 }
-% In, e.g., "CRYPTO 2019, Part II", remove ", Part II"
+% Tweak crypto.bib
 \DeclareSourcemap{\maps[datatype=bibtex]{
-    \map{\step[fieldsource=booktitle, match=\regexp{(.*),\x20Part[~\x20][^\x20]+$}, replace={$1}, final]}}}
+    % In, e.g., "CRYPTO 2019, Part II", remove ", Part II"
+    \map{\step[fieldsource=booktitle,
+      match=\regexp{(.*),\x20Part[~\x20][^\x20]+$}, replace={$1}]}
+    % Rewrite a few venue titles.
+    \map{\step[fieldsource=booktitle,
+      matchi=\regexp{(.*)\x20({)IEEE(})?\x20(Symposium\x20on\x20)?Security\x20and\x20Privacy}
+      % We need to escape the ampersand using "\regexp{...\x26...}" for
+      % XML (.bcf) and using "\&" for TeX; \gobble{$} is to end math syntax highlighting
+      replace={\regexp{{IEEE}\x20{S\\\x26P}\x20$1}\gobble{$}}]}
+    \map[foreach={journal, journaltitle}]{\step[fieldsource={\regexp{$MAPLOOP}\gobble{$}},
+      matchi=\regexp{Journal\x20of\x20Cryptology}, replace={JoC}]}
+    \map[foreach={journal, journaltitle}]{\step[fieldsource={\regexp{$MAPLOOP}\gobble{$}},
+      matchi=\regexp{Journal\x20of\x20Cryptographic\x20Engineering}, replace={J. Cryptogr. Eng.}]}
+}}
 
 %%% hyperref
 \unless\ifcameraready
