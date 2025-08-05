@@ -25,6 +25,7 @@
 
 \RequirePackage{silence}
 \RequirePackage{mathtools}[2004-06-25]  % \DeclarePairedDelimiter
+\RequirePackage{etoolbox}[2011-01-03]  % \AtBeginEnvironment
 
 % Load cryptocode but suppress some warnings
 % (see https://github.com/arnomi/cryptocode/issues/28)
@@ -70,3 +71,9 @@
 \DeclarePairedDelimiter{\pc@bracks}{\lbrack}{\rbrack}
 \NewDocumentCommand\bracks{om}{\IfValueTF{#1}{\pc@bracks[#1]{#2}}{\pc@bracks*{#2}}}
 \NewDocumentCommand\pr{om}{\Pr\bracks[#1]{#2}}
+
+% Add padding to boxes in "boxed" stacks
+% Usage: \setlength{\pcstackboxedsep}{2mm}  % defaults to 0
+\newlength{\pcstackboxedsep}
+\AtBeginEnvironment{pchstack}{\setlength{\fboxsep}{\pcstackboxedsep}}
+\AtBeginEnvironment{pcvstack}{\setlength{\fboxsep}{\pcstackboxedsep}}
