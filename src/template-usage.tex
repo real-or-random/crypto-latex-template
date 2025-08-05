@@ -130,33 +130,29 @@ You probably want to use \verb|\texorpdfstring{<actual LaTeX code>}{<plaintext f
 See the source code of \cref{fig:scheme}.
 \begin{figure}[bthp]
   \begin{center}
-    % If you omit the width, then it will be 100%.
-    % Try to specify boxsep=1mm or smaller if space is tight
-    \begin{tcolorbox}[width=10cm]
-      \begin{pchstack}[center]
-        \begin{pcvstack}
-          \procedure[linenumbering]{$\algo{Alg}(\secpar)$}{%
-            \pcbox{x \sample \ZZ_p \pcsc \pcreturn \sk + x} \\
-            \pcreturn \pcfalse \label{line:false}
-          }
-          \pcvspace
-          \procedure[headlinesep=1pt]{$\gametitle{\game{Coll}}{\algo{H}}$}{%
-            \mathellipsis
-          }
-        \end{pcvstack}
-        \pchspace[1em]
-        \begin{pcvstack}
-          \procedure{$\gametitle*{\game{EUF\mhyphen{}CMA}}{\Sigma}[\bdv]$}{%
-            x \gets 5\\
-            \gamechange{\pcassert \pcfalse}
-          }
-          \pcvspace
-          \procedure[headlinesep=1pt]{$\oracle{Oracle}(\sk, \pk)$}{%
-            y \sample \ZZ_p
-          }
-        \end{pcvstack}
-      \end{pchstack}
-    \end{tcolorbox}
+    \begin{pchstack}[center, boxed]
+      \begin{pcvstack}
+        \procedure[linenumbering]{$\algo{Alg}(\secpar)$}{%
+          \pcbox{x \sample \ZZ_p \pcsc \pcreturn \sk + x} \\
+          \pcreturn \pcfalse \label{line:false}
+        }
+        \pcvspace
+        \procedure[headlinesep=1pt]{$\gametitle{\game{Coll}}{\algo{H}}$}{%
+          \mathellipsis
+        }
+      \end{pcvstack}
+      \pchspace[1em]
+      \begin{pcvstack}
+        \procedure{$\gametitle*{\game{EUF\mhyphen{}CMA}}{\Sigma}[\bdv]$}{%
+          x \gets 5\\
+          \gamechange{\pcassert \pcfalse}
+        }
+        \pcvspace
+        \procedure[headlinesep=1pt]{$\oracle{Oracle}(\sk, \pk)$}{%
+          y \sample \ZZ_p
+        }
+      \end{pcvstack}
+    \end{pchstack}
   \end{center}
   \caption{My great scheme\label{fig:scheme}}  % \label goes inside \caption
 \end{figure}

@@ -278,6 +278,8 @@
   asymptotics,
   keys,
 ]{cryptocode-tweaked}  % local package
+% Add padding to "boxed" pseudocode stacks
+\setlength{\pcstackboxedsep}{2mm}
 % Multi-letter variables, e.g., "ctr"
 \NewDocumentCommand{\pcvarstyle}{m}{\ensuremath{\mathit{#1}}}
 % Make keys and polynomials look like other identifiers.
@@ -293,10 +295,6 @@
 \RenewCommandCopy{\gets}{\defeq}
 % Semicolon
 \NewDocumentCommand{\pcsc}{}{\,;~}
-
-%%% Boxes
-\usepackage{tcolorbox}
-\tcbset{colback=white, size=title, boxsep=2mm}
 
 
 \input{macros.tex}
