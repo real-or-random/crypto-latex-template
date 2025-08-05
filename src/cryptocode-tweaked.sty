@@ -23,12 +23,15 @@
 \NeedsTeXFormat{LaTeX2e}
 \ProvidesPackage{cryptocode-tweaked}[2025-06-16 v1.0 cryptocode with tweaks and fixes]
 
+\RequirePackage{silence}
+\RequirePackage{mathtools}[2004-06-25]  % \DeclarePairedDelimiter
+
+% Load cryptocode but suppress some warnings
+% (see https://github.com/arnomi/cryptocode/issues/28)
 \WarningFilter*[cryptocode-theH]{latex}{Command `\string\the}%
 \ActivateWarningFilters[cryptocode-theH]
 \RequirePackageWithOptions{cryptocode}
 \DeactivateWarningFilters[cryptocode-theH]
-
-\RequirePackage{mathtools}[2004-06-25]  % \DeclarePairedDelimiter
 
 % Better version of \pcfixcleveref
 % (see https://github.com/arnomi/cryptocode/pull/15)
