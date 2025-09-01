@@ -51,7 +51,7 @@ git push
 
  - Arch Linux:
    ```sh
-   pacman -S texlive-binextra texlive-publishers texlive-bibtexextra texlive-mathscience texlive-latexextra
+   pacman -S biber texlive-binextra texlive-publishers texlive-bibtexextra texlive-mathscience texlive-latexextra
    ```
  - (Your OS or distro not listed here? Please open a pull request!)
 
