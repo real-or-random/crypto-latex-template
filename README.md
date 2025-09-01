@@ -47,6 +47,14 @@ git add remote origin "<your remote URI>"
 git push
 ```
 
+### Install LaTeX
+
+ - Arch Linux:
+   ```sh
+   pacman -S texlive-binextra texlive-publishers texlive-bibtexextra texlive-mathscience texlive-latexextra
+   ```
+ - (Your OS or distro not listed here? Please open a pull request!)
+
 ### Install CryptoBib
 
 Install [CryptoBib](https://cryptobib.di.ens.fr/) into your `TEXMFHOME`
