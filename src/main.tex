@@ -57,7 +57,6 @@
 
 %%% Misc early packages
 \usepackage[save]{silence}
-\usepackage{gobble-user}
 
 \usepackage[T1]{fontenc}
 \usepackage{lmodern}
@@ -193,6 +192,7 @@
   }{}
 }
 % Tweak crypto.bib
+\makeatletter\let\gobble\@gobble\makeatother
 \DeclareSourcemap{\maps[datatype=bibtex]{
     % In, e.g., "CRYPTO 2019, Part II", remove ", Part II"
     \map{\step[fieldsource=booktitle,
