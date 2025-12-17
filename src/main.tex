@@ -300,6 +300,9 @@
 \RenewCommandCopy{\gets}{\defeq}
 % Semicolon
 \NewDocumentCommand{\pcsc}{}{\,;~}
+% Workaround for https://github.com/arnomi/cryptocode/issues/29
+\makeatletter\AddToHook{begindocument/end}{\let\pc@original@label\ltx@label}\makeatother
+
 
 
 \input{macros.tex}
