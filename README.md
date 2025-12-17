@@ -143,3 +143,5 @@ Also, add the following to your configuration file
    (used in this template)
  - [citerus](https://github.com/matteocam/citerus):
    A command-line tool to search CryptoBib
+ - [bips2bib](https://github.com/real-or-random/bips2bib):
+   Generate a BibTeX file from the BIPs repository (Bitcoin Improvement Proposals)
