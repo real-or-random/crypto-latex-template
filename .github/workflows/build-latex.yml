@@ -1,0 +1,52 @@
+name: Build LaTeX document
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  build_latex:
+    # Don't run the job twice for pull requests from branches on the base repo
+    if: github.event_name != 'pull_request' || github.event.pull_request.head.repo.full_name != github.event.pull_request.base.repo.full_name
+
+    runs-on: ubuntu-latest
+
+    permissions:
+      contents: read
+
+    steps:
+      - name: Set up Git repository
+        uses: actions/checkout@v6
+        with:
+          path: repo
+
+      - name: Setup cryptobib
+        uses: actions/checkout@v6
+        with:
+          path: cryptobib
+          repository: cryptobib/export
+
+      - name: Compile LaTeX document
+        uses: xu-cheng/latex-action@v4
+        with:
+          working_directory: repo/src
+          root_file: main.tex
+        env:
+          BIBINPUTS: ".:../../cryptobib//:"
+
+      - name: Upload PDF file
+        uses: actions/upload-artifact@v5
+        with:
+          if-no-files-found: error
+          name: pdf
+          path: repo/src/main.pdf
+
+#      - name: Upload everything (for debugging)
+#        uses: actions/upload-artifact@v5
+#        with:
+#          if-no-files-found: warn
+#          name: debug
+#          retention-days: 5
+#          path: |
+#            repo/
+#            cryptobib/
