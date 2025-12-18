@@ -104,7 +104,7 @@ the [CC0 Public Domain Dedication
 (MIT-0)](https://opensource.org/license/mit-0).
 
 ``` sh
-git remove COPYING.txt
+git rm COPYING.txt
 git commit -m "Remove COPYING.txt"
 ```
 
