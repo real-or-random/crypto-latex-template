@@ -32,8 +32,10 @@
   % Disable all patching done by llncsstandalone and use plain llncs
   \PassOptionsToClass{nostandalone}{llncsstandalone}
 \else
-  % Adjust margins for "big" paper
-  \PassOptionsToClass{adjustmargins}{llncsstandalone}
+  \iffull
+    % Adjust margins for "big" paper
+    \PassOptionsToClass{adjustmargins}{llncsstandalone}
+  \fi
 \fi
 \documentclass[
   % Pass either "a4paper" or "letterpaper" explicitly.
